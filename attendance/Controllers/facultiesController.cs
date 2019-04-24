@@ -45,13 +45,13 @@ namespace attendance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,name,code,remarks")] faculty faculty)
+        public ActionResult Create([Bind(Include = "id,name,code,yearLong")] faculty faculty)
         {
             if (ModelState.IsValid)
             {
                 //db.Faculties.Add(faculty);
                 //db.SaveChanges();
-                string sql = "Insert into faculties (name,code,remarks) values ('" + faculty.name + "','" + faculty.code + "','" + faculty.yearLong + "')";
+                string sql = "Insert into faculties (name,code,yearLong) values ('" + faculty.name + "','" + faculty.code + "','" + faculty.yearLong + "')";
                 db.Insert(sql);
                 return RedirectToAction("Index");
             }
@@ -74,13 +74,13 @@ namespace attendance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,name,code,remarks")] faculty faculty)
+        public ActionResult Edit([Bind(Include = "id,name,code,yearLong")] faculty faculty)
         {
             if (ModelState.IsValid)
             {
                 //db.Entry(faculty).State = EntityState.Modified;
                 //db.SaveChanges();
-                string sql = "Update into faculties (name,code,remarks) values ('" + faculty.name + "','" + faculty.code + "','" + faculty.yearLong + "')";
+                string sql = "Update faculties set name = '" + faculty.name + "' , code = '" + faculty.code + "', yearLong = '" + faculty.yearLong + "' ";
                 db.Insert(sql);
                 return RedirectToAction("Index");
             }

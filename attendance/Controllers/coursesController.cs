@@ -17,22 +17,21 @@ namespace attendance.Controllers
         // GET: courses
         public ActionResult Index()
         {
-            return View(db.Courses.ToList());
+            string sql = "Select * from courses";
+            db.List(sql);
+            var dt = db.List(sql);
+            var model = new course().List(dt);
+            return View(model);
         }
 
         // GET: courses/Details/5
         public ActionResult Details(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            course course = db.Courses.Find(id);
-            if (course == null)
-            {
-                return HttpNotFound();
-            }
-            return View(course);
+            string sql = "Select * from courses where (id = " + id + ")";
+            db.List(sql);
+            var dt = db.List(sql);
+            var model = new course().List(dt);
+            return View(model.FirstOrDefault());
         }
 
         // GET: courses/Create
@@ -50,8 +49,10 @@ namespace attendance.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Courses.Add(course);
-                db.SaveChanges();
+                //db.Courses.Add(course);
+                // db.SaveChanges();
+                string sql = "Insert into courses (name,code,creditHour) values ('" + course.name + "','" + course.code + "','" + course.creditHour + "')";
+                db.Insert(sql);
                 return RedirectToAction("Index");
             }
 
@@ -61,16 +62,11 @@ namespace attendance.Controllers
         // GET: courses/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            course course = db.Courses.Find(id);
-            if (course == null)
-            {
-                return HttpNotFound();
-            }
-            return View(course);
+            string sql = "Select * from courses where (id = " + id + ")";
+            db.List(sql);
+            var dt = db.List(sql);
+            var model = new course().List(dt);
+            return View(model.FirstOrDefault());
         }
 
         // POST: courses/Edit/5
@@ -82,8 +78,8 @@ namespace attendance.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(course).State = EntityState.Modified;
-                db.SaveChanges();
+                string sql = "Update courses set name = '" + course.name + "' , code = '" + course.code + "', creditHour = '" + course.creditHour + "' ";
+                db.Insert(sql);
                 return RedirectToAction("Index");
             }
             return View(course);
@@ -92,16 +88,11 @@ namespace attendance.Controllers
         // GET: courses/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            course course = db.Courses.Find(id);
-            if (course == null)
-            {
-                return HttpNotFound();
-            }
-            return View(course);
+            string sql = "Select * from courses where (id = " + id + ")";
+            db.List(sql);
+            var dt = db.List(sql);
+            var model = new course().List(dt);
+            return View(model.FirstOrDefault());
         }
 
         // POST: courses/Delete/5
@@ -109,9 +100,8 @@ namespace attendance.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            course course = db.Courses.Find(id);
-            db.Courses.Remove(course);
-            db.SaveChanges();
+            string sql = "Delete from courses where id = " + id + "";
+            db.Delete(sql);
             return RedirectToAction("Index");
         }
 

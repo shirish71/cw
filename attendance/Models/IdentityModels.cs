@@ -41,6 +41,20 @@ namespace attendance.Models
                 con.Close();
             }
         }
+        public void Edit(string sql)
+        {
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+            SqlCommand cmd = new SqlCommand(sql, con);
+            try
+            {
+                con.Open();
+                cmd.ExecuteNonQuery();
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
         public DataTable List(string sql)
         {
             SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
