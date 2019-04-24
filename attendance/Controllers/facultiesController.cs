@@ -51,7 +51,7 @@ namespace attendance.Controllers
             {
                 //db.Faculties.Add(faculty);
                 //db.SaveChanges();
-                string sql = "Insert into faculties (name,code,remarks) values ('" + faculty.name + "','" + faculty.code + "','" + faculty.remarks + "')";
+                string sql = "Insert into faculties (name,code,remarks) values ('" + faculty.name + "','" + faculty.code + "','" + faculty.yearLong + "')";
                 db.Insert(sql);
                 return RedirectToAction("Index");
             }
@@ -80,7 +80,7 @@ namespace attendance.Controllers
             {
                 //db.Entry(faculty).State = EntityState.Modified;
                 //db.SaveChanges();
-                string sql = "Update into faculties (name,code,remarks) values ('" + faculty.name + "','" + faculty.code + "','" + faculty.remarks + "')";
+                string sql = "Update into faculties (name,code,remarks) values ('" + faculty.name + "','" + faculty.code + "','" + faculty.yearLong + "')";
                 db.Insert(sql);
                 return RedirectToAction("Index");
             }

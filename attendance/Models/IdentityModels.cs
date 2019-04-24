@@ -73,9 +73,13 @@ namespace attendance.Models
             }
         }
 
-       // public DbSet<faculty> Faculties { get; set; }
+        public DbSet<faculty> Faculties { get; set; }
         public DbSet<student> Students { get; set; }
-
+        public DbSet<course> Courses { get; set; }
+        public DbSet<facultyCourse> FacultyCourses { get; set; }
+        public DbSet<teacher> Lecturers { get; set; }
+        public DbSet<timeTable> TimeTables { get; set; }
+        public DbSet<attendanceModel> Attendances { get; set; }
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

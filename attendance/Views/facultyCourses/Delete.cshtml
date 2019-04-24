@@ -1,4 +1,4 @@
-﻿@model attendance.Models.faculty
+﻿@model attendance.Models.facultyCourse
 
 @{
     ViewBag.Title = "Delete";
@@ -8,31 +8,23 @@
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>faculty</h4>
+    <h4>facultyCourse</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.name)
+            @Html.DisplayNameFor(model => model.cou.name)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.name)
+            @Html.DisplayFor(model => model.cou.name)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.code)
+            @Html.DisplayNameFor(model => model.fac.name)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.code)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.yearLong)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.yearLong)
+            @Html.DisplayFor(model => model.fac.name)
         </dd>
 
     </dl>

@@ -13,7 +13,7 @@ namespace attendance.Models
         [Required]
         public string name { get; set; }
         public string code { get; set;  }
-        public string remarks { get; set; }
+        public string yearLong { get; set; }
 
         List<faculty> list = new List<faculty>();
         public List<faculty> List(System.Data.DataTable dt)
@@ -25,7 +25,7 @@ namespace attendance.Models
                 fac.id = Convert.ToInt32(dt.Rows[i]["id"]);
                 fac.name = dt.Rows[i]["name"].ToString();
                 fac.code = dt.Rows[i]["code"].ToString();
-                fac.remarks = dt.Rows[i]["remarks"].ToString();
+                fac.yearLong = dt.Rows[i]["yearLong"].ToString();
                 list.Add(fac);
             }
             return list;

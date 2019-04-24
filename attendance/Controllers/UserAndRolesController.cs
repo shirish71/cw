@@ -27,10 +27,10 @@ namespace attendance.Controllers
             }
         }
         // GET: UserAndRolesConroller
-        public ActionResult Index()
-        {
-            return View();
-        }
+       // public ActionResult Index()
+       // {
+         //   return View();
+       // }
         public async Task<ActionResult> AddUserToRole()
         {
             ApplicationUserRoleViewModel vm = new ApplicationUserRoleViewModel();

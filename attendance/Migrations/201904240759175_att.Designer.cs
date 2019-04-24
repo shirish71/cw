@@ -7,13 +7,13 @@ namespace attendance.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class attend : IMigrationMetadata
+    public sealed partial class att : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(attend));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(att));
         
         string IMigrationMetadata.Id
         {
-            get { return "201904090315248_attend"; }
+            get { return "201904240759175_att"; }
         }
         
         string IMigrationMetadata.Source

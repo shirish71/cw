@@ -10,113 +10,116 @@ using attendance.Models;
 
 namespace attendance.Controllers
 {
-    [Authorize(Roles ="Admin")]
-    public class studentsController : Controller
+    public class facultyCoursesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: students
+        // GET: facultyCourses
         public ActionResult Index()
         {
-            var students = db.Students.Include(s => s.fac);
-            return View(students.ToList());
+            var facultyCourses = db.FacultyCourses.Include(f => f.cou).Include(f => f.fac);
+            return View(facultyCourses.ToList());
         }
 
-        // GET: students/Details/5
+        // GET: facultyCourses/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            student student = db.Students.Find(id);
-            if (student == null)
+            facultyCourse facultyCourse = db.FacultyCourses.Find(id);
+            if (facultyCourse == null)
             {
                 return HttpNotFound();
             }
-            return View(student);
+            return View(facultyCourse);
         }
 
-        // GET: students/Create
+        // GET: facultyCourses/Create
         public ActionResult Create()
         {
-            ViewBag.facultyId = new SelectList(db.Faculties, "id", "name");
+            ViewBag.courseId = new SelectList(db.Faculties, "id", "name");
+            ViewBag.facultyId = new SelectList(db.Students, "id", "name");
             return View();
         }
 
-        // POST: students/Create
+        // POST: facultyCourses/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,name,phone,email,DOB,address,groupId,facultyId")] student student)
+        public ActionResult Create([Bind(Include = "id,courseId,facultyId")] facultyCourse facultyCourse)
         {
             if (ModelState.IsValid)
             {
-                db.Students.Add(student);
+                db.FacultyCourses.Add(facultyCourse);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.facultyId = new SelectList(db.Faculties, "id", "name", student.facultyId);
-            return View(student);
+            ViewBag.courseId = new SelectList(db.Faculties, "id", "name", facultyCourse.courseId);
+            ViewBag.facultyId = new SelectList(db.Students, "id", "name", facultyCourse.facultyId);
+            return View(facultyCourse);
         }
 
-        // GET: students/Edit/5
+        // GET: facultyCourses/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            student student = db.Students.Find(id);
-            if (student == null)
+            facultyCourse facultyCourse = db.FacultyCourses.Find(id);
+            if (facultyCourse == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.facultyId = new SelectList(db.Faculties, "id", "name", student.facultyId);
-            return View(student);
+            ViewBag.courseId = new SelectList(db.Faculties, "id", "name", facultyCourse.courseId);
+            ViewBag.facultyId = new SelectList(db.Students, "id", "name", facultyCourse.facultyId);
+            return View(facultyCourse);
         }
 
-        // POST: students/Edit/5
+        // POST: facultyCourses/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,name,phone,email,DOB,address,groupId,facultyId")] student student)
+        public ActionResult Edit([Bind(Include = "id,courseId,facultyId")] facultyCourse facultyCourse)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(student).State = EntityState.Modified;
+                db.Entry(facultyCourse).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.facultyId = new SelectList(db.Faculties, "id", "name", student.facultyId);
-            return View(student);
+            ViewBag.courseId = new SelectList(db.Faculties, "id", "name", facultyCourse.courseId);
+            ViewBag.facultyId = new SelectList(db.Students, "id", "name", facultyCourse.facultyId);
+            return View(facultyCourse);
         }
 
-        // GET: students/Delete/5
+        // GET: facultyCourses/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            student student = db.Students.Find(id);
-            if (student == null)
+            facultyCourse facultyCourse = db.FacultyCourses.Find(id);
+            if (facultyCourse == null)
             {
                 return HttpNotFound();
             }
-            return View(student);
+            return View(facultyCourse);
         }
 
-        // POST: students/Delete/5
+        // POST: facultyCourses/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            student student = db.Students.Find(id);
-            db.Students.Remove(student);
+            facultyCourse facultyCourse = db.FacultyCourses.Find(id);
+            db.FacultyCourses.Remove(facultyCourse);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

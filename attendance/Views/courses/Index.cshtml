@@ -1,4 +1,4 @@
-﻿@model IEnumerable<attendance.Models.faculty>
+﻿@model IEnumerable<attendance.Models.course>
 
 @{
     ViewBag.Title = "Index";
@@ -18,7 +18,7 @@
             @Html.DisplayNameFor(model => model.code)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.yearLong)
+            @Html.DisplayNameFor(model => model.creditHour)
         </th>
         <th></th>
     </tr>
@@ -32,7 +32,7 @@
             @Html.DisplayFor(modelItem => item.code)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.yearLong)
+            @Html.DisplayFor(modelItem => item.creditHour)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.id }) |

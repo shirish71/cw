@@ -1,4 +1,4 @@
-﻿@model attendance.Models.faculty
+﻿@model attendance.Models.course
 
 @{
     ViewBag.Title = "Details";
@@ -7,7 +7,7 @@
 <h2>Details</h2>
 
 <div>
-    <h4>faculty</h4>
+    <h4>course</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -27,11 +27,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.yearLong)
+            @Html.DisplayNameFor(model => model.creditHour)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.yearLong)
+            @Html.DisplayFor(model => model.creditHour)
         </dd>
 
     </dl>

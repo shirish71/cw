@@ -10,113 +10,116 @@ using attendance.Models;
 
 namespace attendance.Controllers
 {
-    [Authorize(Roles ="Admin")]
-    public class studentsController : Controller
+    public class attendanceModelsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: students
+        // GET: attendanceModels
         public ActionResult Index()
         {
-            var students = db.Students.Include(s => s.fac);
-            return View(students.ToList());
+            var attendances = db.Attendances.Include(a => a.stud).Include(a => a.timeTable);
+            return View(attendances.ToList());
         }
 
-        // GET: students/Details/5
+        // GET: attendanceModels/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            student student = db.Students.Find(id);
-            if (student == null)
+            attendanceModel attendanceModel = db.Attendances.Find(id);
+            if (attendanceModel == null)
             {
                 return HttpNotFound();
             }
-            return View(student);
+            return View(attendanceModel);
         }
 
-        // GET: students/Create
+        // GET: attendanceModels/Create
         public ActionResult Create()
         {
-            ViewBag.facultyId = new SelectList(db.Faculties, "id", "name");
+            ViewBag.studentId = new SelectList(db.Students, "id", "name");
+            ViewBag.timeTableId = new SelectList(db.TimeTables, "id", "day");
             return View();
         }
 
-        // POST: students/Create
+        // POST: attendanceModels/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,name,phone,email,DOB,address,groupId,facultyId")] student student)
+        public ActionResult Create([Bind(Include = "id,remarks,date,status,studentId,timeTableId")] attendanceModel attendanceModel)
         {
             if (ModelState.IsValid)
             {
-                db.Students.Add(student);
+                db.Attendances.Add(attendanceModel);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.facultyId = new SelectList(db.Faculties, "id", "name", student.facultyId);
-            return View(student);
+            ViewBag.studentId = new SelectList(db.Students, "id", "name", attendanceModel.studentId);
+            ViewBag.timeTableId = new SelectList(db.TimeTables, "id", "day", attendanceModel.timeTableId);
+            return View(attendanceModel);
         }
 
-        // GET: students/Edit/5
+        // GET: attendanceModels/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            student student = db.Students.Find(id);
-            if (student == null)
+            attendanceModel attendanceModel = db.Attendances.Find(id);
+            if (attendanceModel == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.facultyId = new SelectList(db.Faculties, "id", "name", student.facultyId);
-            return View(student);
+            ViewBag.studentId = new SelectList(db.Students, "id", "name", attendanceModel.studentId);
+            ViewBag.timeTableId = new SelectList(db.TimeTables, "id", "day", attendanceModel.timeTableId);
+            return View(attendanceModel);
         }
 
-        // POST: students/Edit/5
+        // POST: attendanceModels/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,name,phone,email,DOB,address,groupId,facultyId")] student student)
+        public ActionResult Edit([Bind(Include = "id,remarks,date,status,studentId,timeTableId")] attendanceModel attendanceModel)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(student).State = EntityState.Modified;
+                db.Entry(attendanceModel).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.facultyId = new SelectList(db.Faculties, "id", "name", student.facultyId);
-            return View(student);
+            ViewBag.studentId = new SelectList(db.Students, "id", "name", attendanceModel.studentId);
+            ViewBag.timeTableId = new SelectList(db.TimeTables, "id", "day", attendanceModel.timeTableId);
+            return View(attendanceModel);
         }
 
-        // GET: students/Delete/5
+        // GET: attendanceModels/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            student student = db.Students.Find(id);
-            if (student == null)
+            attendanceModel attendanceModel = db.Attendances.Find(id);
+            if (attendanceModel == null)
             {
                 return HttpNotFound();
             }
-            return View(student);
+            return View(attendanceModel);
         }
 
-        // POST: students/Delete/5
+        // POST: attendanceModels/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            student student = db.Students.Find(id);
-            db.Students.Remove(student);
+            attendanceModel attendanceModel = db.Attendances.Find(id);
+            db.Attendances.Remove(attendanceModel);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -10,113 +10,107 @@ using attendance.Models;
 
 namespace attendance.Controllers
 {
-    [Authorize(Roles ="Admin")]
-    public class studentsController : Controller
+    public class timeTablesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: students
+        // GET: timeTables
         public ActionResult Index()
         {
-            var students = db.Students.Include(s => s.fac);
-            return View(students.ToList());
+            return View(db.TimeTables.ToList());
         }
 
-        // GET: students/Details/5
+        // GET: timeTables/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            student student = db.Students.Find(id);
-            if (student == null)
+            timeTable timeTable = db.TimeTables.Find(id);
+            if (timeTable == null)
             {
                 return HttpNotFound();
             }
-            return View(student);
+            return View(timeTable);
         }
 
-        // GET: students/Create
+        // GET: timeTables/Create
         public ActionResult Create()
         {
-            ViewBag.facultyId = new SelectList(db.Faculties, "id", "name");
             return View();
         }
 
-        // POST: students/Create
+        // POST: timeTables/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,name,phone,email,DOB,address,groupId,facultyId")] student student)
+        public ActionResult Create([Bind(Include = "id,day,TeacherId,CourseId,startTime,endTime,GroupId")] timeTable timeTable)
         {
             if (ModelState.IsValid)
             {
-                db.Students.Add(student);
+                db.TimeTables.Add(timeTable);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.facultyId = new SelectList(db.Faculties, "id", "name", student.facultyId);
-            return View(student);
+            return View(timeTable);
         }
 
-        // GET: students/Edit/5
+        // GET: timeTables/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            student student = db.Students.Find(id);
-            if (student == null)
+            timeTable timeTable = db.TimeTables.Find(id);
+            if (timeTable == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.facultyId = new SelectList(db.Faculties, "id", "name", student.facultyId);
-            return View(student);
+            return View(timeTable);
         }
 
-        // POST: students/Edit/5
+        // POST: timeTables/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,name,phone,email,DOB,address,groupId,facultyId")] student student)
+        public ActionResult Edit([Bind(Include = "id,day,TeacherId,CourseId,startTime,endTime,GroupId")] timeTable timeTable)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(student).State = EntityState.Modified;
+                db.Entry(timeTable).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.facultyId = new SelectList(db.Faculties, "id", "name", student.facultyId);
-            return View(student);
+            return View(timeTable);
         }
 
-        // GET: students/Delete/5
+        // GET: timeTables/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            student student = db.Students.Find(id);
-            if (student == null)
+            timeTable timeTable = db.TimeTables.Find(id);
+            if (timeTable == null)
             {
                 return HttpNotFound();
             }
-            return View(student);
+            return View(timeTable);
         }
 
-        // POST: students/Delete/5
+        // POST: timeTables/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            student student = db.Students.Find(id);
-            db.Students.Remove(student);
+            timeTable timeTable = db.TimeTables.Find(id);
+            db.TimeTables.Remove(timeTable);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
