@@ -13,7 +13,7 @@ namespace attendance.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201904240759175_att"; }
+            get { return "201904241139179_att"; }
         }
         
         string IMigrationMetadata.Source

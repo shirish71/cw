@@ -10,6 +10,7 @@ using attendance.Models;
 
 namespace attendance.Controllers
 {
+   // [Authorize(Roles = "Admin")]
     public class facultiesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

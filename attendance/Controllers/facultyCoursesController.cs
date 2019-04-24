@@ -17,8 +17,11 @@ namespace attendance.Controllers
         // GET: facultyCourses
         public ActionResult Index()
         {
-            var facultyCourses = db.FacultyCourses.Include(f => f.cou).Include(f => f.fac);
-            return View(facultyCourses.ToList());
+            string sql = "Select * from facultyCourses";
+            db.List(sql);
+            var dt = db.List(sql);
+            var model = new facultyCourse().List(dt);
+            return View(model);
         }
 
         // GET: facultyCourses/Details/5
@@ -39,8 +42,8 @@ namespace attendance.Controllers
         // GET: facultyCourses/Create
         public ActionResult Create()
         {
-            ViewBag.courseId = new SelectList(db.Faculties, "id", "name");
-            ViewBag.facultyId = new SelectList(db.Students, "id", "name");
+            ViewBag.courseId = new SelectList(db.Courses, "id", "name");
+            ViewBag.facultyId = new SelectList(db.Faculties, "id", "name");
             return View();
         }
 
@@ -58,8 +61,8 @@ namespace attendance.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.courseId = new SelectList(db.Faculties, "id", "name", facultyCourse.courseId);
-            ViewBag.facultyId = new SelectList(db.Students, "id", "name", facultyCourse.facultyId);
+            ViewBag.courseId = new SelectList(db.Courses, "id", "name", facultyCourse.courseId);
+            ViewBag.facultyId = new SelectList(db.Faculties, "id", "name", facultyCourse.facultyId);
             return View(facultyCourse);
         }
 
@@ -75,8 +78,8 @@ namespace attendance.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.courseId = new SelectList(db.Faculties, "id", "name", facultyCourse.courseId);
-            ViewBag.facultyId = new SelectList(db.Students, "id", "name", facultyCourse.facultyId);
+            ViewBag.courseId = new SelectList(db.Courses, "id", "name", facultyCourse.courseId);
+            ViewBag.facultyId = new SelectList(db.Faculties, "id", "name", facultyCourse.facultyId);
             return View(facultyCourse);
         }
 
@@ -93,8 +96,8 @@ namespace attendance.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.courseId = new SelectList(db.Faculties, "id", "name", facultyCourse.courseId);
-            ViewBag.facultyId = new SelectList(db.Students, "id", "name", facultyCourse.facultyId);
+            ViewBag.courseId = new SelectList(db.Courses, "id", "name", facultyCourse.courseId);
+            ViewBag.facultyId = new SelectList(db.Faculties, "id", "name", facultyCourse.facultyId);
             return View(facultyCourse);
         }
 
