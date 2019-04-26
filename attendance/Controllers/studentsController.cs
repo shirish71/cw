@@ -10,6 +10,7 @@ using attendance.Models;
 
 namespace attendance.Controllers
 {
+    [Authorize(Roles = "Admin , Teacher. Student Services")]
     public class studentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -108,23 +109,24 @@ namespace attendance.Controllers
         }
 
         // GET: students1/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
-            string sql = "Select * from students  join faculties on faculties.id = students.facultyId where (students.id = " + id + ")";
+            string sql = "Select * from students join faculties on faculties.id = students.facultyId where (students.id = " + id + ")";
             db.List(sql);
             var dt = db.List(sql);
             var model = new student().List(dt);
             return View(model.FirstOrDefault());
         }
-
+        
         // POST: students1/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            student student = db.Students.Find(id);
-            db.Students.Remove(student);
-            db.SaveChanges();
+
+            string sql = "Delete from students where id = " + id + "";
+            db.Delete(sql);
             return RedirectToAction("Index");
         }
 

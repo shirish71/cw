@@ -11,6 +11,7 @@ using attendance.Models;
 
 namespace attendance.Controllers
 {
+    [Authorize(Roles = "Admin , Teacher. Student Services")]
     public class attendanceModelsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -258,9 +259,8 @@ namespace attendance.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            attendanceModel attendanceModel = db.Attendances.Find(id);
-            db.Attendances.Remove(attendanceModel);
-            db.SaveChanges();
+            string sql = "Delete from attendanceModels where id = " + id + "";
+            db.Delete(sql);
             return RedirectToAction("Index");
         }
 

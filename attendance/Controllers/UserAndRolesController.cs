@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace attendance.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class UserAndRolesController : Controller
     {
         ApplicationDbContext dbCon = new ApplicationDbContext();

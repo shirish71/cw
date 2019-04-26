@@ -12,7 +12,7 @@ using attendance.Models;
 
 namespace attendance.Controllers
 {
-    // [Authorize(Roles = "Admin")]
+     [Authorize(Roles = "Admin , Teacher. Student Services")]
     public class facultiesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

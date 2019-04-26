@@ -10,6 +10,7 @@ using attendance.Models;
 
 namespace attendance.Controllers
 {
+    [Authorize(Roles = "Admin , Teacher. Student Services")]
     public class teachersController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -107,6 +108,7 @@ namespace attendance.Controllers
         }
 
         // GET: teachers/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             string sql = "Select * from teachers join courses on teachers.courseId = courses.id where (teachers.id = " + id + ")";

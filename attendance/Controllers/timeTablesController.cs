@@ -10,6 +10,7 @@ using attendance.Models;
 
 namespace attendance.Controllers
 {
+    [Authorize(Roles = "Admin , Teacher. Student Services")]
     public class timeTablesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
