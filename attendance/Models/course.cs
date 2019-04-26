@@ -29,7 +29,10 @@ namespace attendance.Models
             {
                 course cou = new course();
                 cou.id = Convert.ToInt32(dt.Rows[i]["id"]);
-                cou.CourseName = dt.Rows[i]["CourseName"].ToString();
+                if (dt.Columns.Contains("CourseName"))
+                {
+                    cou.CourseName = dt.Rows[i]["CourseName"].ToString();
+                }
                 cou.code = dt.Rows[i]["code"].ToString();
                 cou.creditHour = dt.Rows[i]["creditHour"].ToString();
                 list.Add(cou);

@@ -29,16 +29,11 @@ namespace attendance.Controllers
         // GET: attendanceModels/Details/5
         public ActionResult Details(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            attendanceModel attendanceModel = db.Attendances.Find(id);
-            if (attendanceModel == null)
-            {
-                return HttpNotFound();
-            }
-            return View(attendanceModel);
+            string sql = "Select * from attendanceModels join timeTables on timeTables.id = attendanceModels.timeTableId join students on students.id = attendanceModels.studentId where (attendanceModels.id = " + id + ")";
+            db.List(sql);
+            var dt = db.List(sql);
+            var model = new attendanceModel().List(dt);
+            return View(model.FirstOrDefault());
         }
 
         // GET: attendanceModels/Create
@@ -207,18 +202,24 @@ namespace attendance.Controllers
         // GET: attendanceModels/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            attendanceModel attendanceModel = db.Attendances.Find(id);
-            if (attendanceModel == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.studentId = new SelectList(db.Students, "id", "StudentName", attendanceModel.studentId);
-            ViewBag.timeTableId = new SelectList(db.TimeTables, "id", "day", attendanceModel.timeTableId);
-            return View(attendanceModel);
+            string sql = "Select * from attendanceModels join timeTables on timeTables.id = attendanceModels.timeTableId join students on students.id = attendanceModels.studentId where (attendanceModels.id = " + id + ")";
+            db.List(sql);
+            var dt = db.List(sql);
+            var model = new attendanceModel().List(dt);
+
+            string sql1 = "Select * from students";
+            db.List(sql1);
+            var dt1 = db.List(sql1);
+            var model1 = new student().List(dt1);
+            ViewBag.studentId = new SelectList(model1, "id", "StudentName");
+
+            string sql2 = "Select * from timeTables";
+            db.List(sql2);
+            var dt2 = db.List(sql2);
+            var model2 = new timeTable().List(dt2);
+            ViewBag.timeTableId = new SelectList(model2, "id", "day");
+
+            return View(model.FirstOrDefault());
         }
 
         // POST: attendanceModels/Edit/5
@@ -228,30 +229,21 @@ namespace attendance.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id,remarks,date,status,studentId,timeTableId")] attendanceModel attendanceModel)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(attendanceModel).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.studentId = new SelectList(db.Students, "id", "StudentName", attendanceModel.studentId);
-            ViewBag.timeTableId = new SelectList(db.TimeTables, "id", "day", attendanceModel.timeTableId);
-            return View(attendanceModel);
-        }
+            DateTime dateTime = DateTime.UtcNow.Date;
+            string sql = "Update attendanceModels  Set studentId  = '" + attendanceModel.studentId + "',timeTableId = '" + attendanceModel.timeTableId + "',date = '" + dateTime.ToString("dd/MM/yyyy") + "' ,status ='" + attendanceModel.status + "', Remarks = '" + attendanceModel.remarks + "' where id = "+attendanceModel.id+"";
+               
+            db.Insert(sql);
+            return RedirectToAction("Index");
+    }
 
         // GET: attendanceModels/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            attendanceModel attendanceModel = db.Attendances.Find(id);
-            if (attendanceModel == null)
-            {
-                return HttpNotFound();
-            }
-            return View(attendanceModel);
+            string sql = "Select * from attendanceModels join timeTables on timeTables.id = attendanceModels.timeTableId join students on students.id = attendanceModels.studentId where (attendanceModels.id = " + id + ")";
+            db.List(sql);
+            var dt = db.List(sql);
+            var model = new attendanceModel().List(dt);
+            return View(model.FirstOrDefault());
         }
 
         // POST: attendanceModels/Delete/5

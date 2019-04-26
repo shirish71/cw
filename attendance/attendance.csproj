@@ -253,7 +253,6 @@
     <Compile Include="Models\ApplicationUserRoleViewModel.cs" />
     <Compile Include="Models\attendanceModel.cs" />
     <Compile Include="Models\course.cs" />
-    <Compile Include="Models\courseTeacherViewModel.cs" />
     <Compile Include="Models\faculty.cs" />
     <Compile Include="Models\facultyCourse.cs" />
     <Compile Include="Models\IdentityModels.cs" />

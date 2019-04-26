@@ -49,10 +49,9 @@ namespace attendance.Models
             {
                 attendanceModel attend = new attendanceModel();
                 attend.id = Convert.ToInt32(dt.Rows[i]["id"]);
-                if (dt.Columns.Contains("date"))
-                {
-                    attend.date = dt.Rows[i]["date"].ToString();
-                }
+                
+                attend.date = dt.Rows[i]["date"].ToString();
+               
                 if (dt.Columns.Contains("day"))
                 {
                     attend.date = dt.Rows[i]["day"].ToString();
