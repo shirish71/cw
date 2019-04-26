@@ -80,6 +80,7 @@ namespace attendance.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult FilterView(string select, string studentId)
         {
+            DateTime dateTime = DateTime.UtcNow.Date;
             DateTime date = DateTime.Now; 
             int year = date.Date.Year;
             DateTime firstDay = new DateTime(year, 1, 1);
@@ -93,7 +94,7 @@ namespace attendance.Controllers
             DateTime endDateOfWeek = startDateOfWeek.AddDays(6);
             string sql = "";
             if(select == "1"){
-                 sql = "SELECT * FROM attendanceModels join students on students.id = attendanceModels.studentId join timeTables on timeTables.id = attendanceModels.timeTableId join courses on courses.id = timeTables.courseId WHERE date = '" + date.ToString("dd/MM/yyyy")+"'  ";
+                 sql = "SELECT * FROM attendanceModels join students on students.id = attendanceModels.studentId join timeTables on timeTables.id = attendanceModels.timeTableId join courses on courses.id = timeTables.courseId WHERE date = '" + dateTime.ToString("dd/MM/yyyy")+"'  ";
             }if(select== "2"){
                 sql = "SELECT * FROM attendanceModels join students on students.id = attendanceModels.studentId join timeTables on timeTables.id = attendanceModels.timeTableId join courses on courses.id = timeTables.courseId WHERE date Between '" + startDateOfWeek.ToString("dd/MM/yyyy") + "' and '"+ endDateOfWeek.ToString("dd/MM/yyyy") + "'";
             }if (select == "3") {
@@ -109,6 +110,7 @@ namespace attendance.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult FilterViewInd(string select, string studentId)
         {
+            DateTime dateTime = DateTime.UtcNow.Date;
             DateTime date = DateTime.Now;
             int year = date.Date.Year;
             DateTime firstDay = new DateTime(year, 1, 1);
@@ -123,7 +125,7 @@ namespace attendance.Controllers
             string sql = "";
             if (select == "1")
             {
-                sql = "SELECT * FROM attendanceModels join students on students.id = attendanceModels.studentId join timeTables on timeTables.id = attendanceModels.timeTableId join courses on courses.id = timeTables.courseId WHERE date = '" + date.ToString("dd/MM/yyyy") + "' and students.id = '" + studentId + "' ";
+                sql = "SELECT * FROM attendanceModels join students on students.id = attendanceModels.studentId join timeTables on timeTables.id = attendanceModels.timeTableId join courses on courses.id = timeTables.courseId WHERE date = '" + dateTime.ToString("dd/MM/yyyy") + "' and students.id = '" + studentId + "' ";
             }
             if (select == "2")
             {
@@ -141,21 +143,12 @@ namespace attendance.Controllers
         }
         public ActionResult AbsentStudent()
         {
-            DateTime date = DateTime.Now;
-            int year = date.Date.Year;
-            DateTime firstDay = new DateTime(year, 1, 1);
-            DayOfWeek day = date.DayOfWeek;
-            CultureInfo cul = CultureInfo.CurrentCulture;
-            int weekNo = cul.Calendar.GetWeekOfYear(date, CalendarWeekRule.FirstDay, DayOfWeek.Sunday);
-            int days = (weekNo - 1) * 7;
-            DateTime dt1 = firstDay.AddDays(days);
-            DayOfWeek dow = dt1.DayOfWeek;
-            DateTime startDateOfWeek = dt1.AddDays(-(int)dow);
-            DateTime endDateOfWeek = startDateOfWeek.AddDays(6);
+            
+          
             string sql2 = "Select * from students left join attendanceModels on attendanceModels.studentId = students.id  " +
                 "join facultyCourses on facultyCourses.facultyId = students.facultyId " +
                 "join courses on courses.id = facultyCourses.courseId " +
-                "where Not exists ( select * from  attendanceModels where attendanceModels.studentId = students.id ) and attendanceModels.date Between '" + startDateOfWeek.ToString("dd/MM/yyyy") + "' and '" + endDateOfWeek.ToString("dd/MM/yyyy") + "'  or (attendanceModels.status = 'A')";
+                "where Not exists ( select * from  attendanceModels where attendanceModels.studentId = students.id ) ";
             db.List(sql2);
             var dt2 = db.List(sql2);
             var model = new student().List(dt2);
