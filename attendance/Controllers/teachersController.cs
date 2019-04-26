@@ -17,29 +17,52 @@ namespace attendance.Controllers
         // GET: teachers
         public ActionResult Index()
         {
-            var lecturers = db.Lecturers.Include(t => t.course);
-            return View(lecturers.ToList());
+            string sql = "Select * from teachers join courses on teachers.courseId = courses.id";
+            db.List(sql);
+            var dt = db.List(sql);
+            var model = new teacher().List(dt);
+
+            return View(model);
+        }
+        public ActionResult FilterData()
+        {
+            string sql1 = "Select * from courses";
+            db.List(sql1);
+            var dt1 = db.List(sql1);
+            var model1 = new course().List(dt1);
+            ViewBag.courseId = new SelectList(model1, "id", "CourseName");
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult FilterView([Bind(Include = "id,TeacherName,position,courseId,hour,TeacherEmail,phoneNo")] teacher teacher, string courseId)
+        {
+            string sql = "Select * from courses join teachers on courses.id = teachers.courseId where courses.id = "+courseId+"";
+            db.List(sql);
+            var dt = db.List(sql);
+            var model = new teacher().List(dt);
+            ViewBag.filterView = model.ToArray();
+            return View();
         }
 
         // GET: teachers/Details/5
         public ActionResult Details(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            teacher teacher = db.Lecturers.Find(id);
-            if (teacher == null)
-            {
-                return HttpNotFound();
-            }
-            return View(teacher);
+            string sql = "Select * from teachers join courses on teachers.courseId = courses.id where (teachers.id = " + id + ")";
+            db.List(sql);
+            var dt = db.List(sql);
+            var model = new teacher().List(dt);
+            return View(model.FirstOrDefault());
         }
 
         // GET: teachers/Create
         public ActionResult Create()
         {
-            ViewBag.courseId = new SelectList(db.Courses, "id", "name");
+            string sql1 = "Select * from courses";
+            db.List(sql1);
+            var dt1 = db.List(sql1);
+            var model1 = new course().List(dt1);
+            ViewBag.courseId = new SelectList(model1, "id", "CourseName");
             return View();
         }
 
@@ -48,33 +71,27 @@ namespace attendance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,name,position,courseId,userId")] teacher teacher)
+        public ActionResult Create([Bind(Include = "id,TeacherName,position,courseId,hour,TeacherEmail,phoneNo")] teacher teacher)
         {
-            if (ModelState.IsValid)
-            {
-                db.Lecturers.Add(teacher);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.courseId = new SelectList(db.Courses, "id", "name", teacher.courseId);
-            return View(teacher);
+            string sql = "Insert into teachers (TeacherName, position,courseId,TeacherEmail,hour,phoneNo) values ('" + teacher.TeacherName + "' ,'" + teacher.position + "','" + teacher.courseId + "','" + teacher.TeacherEmail + "' ,'" + teacher.hour + "','" + teacher.phoneNo + "' )";
+            db.Edit(sql);
+            return RedirectToAction("Index");
         }
 
         // GET: teachers/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            teacher teacher = db.Lecturers.Find(id);
-            if (teacher == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.courseId = new SelectList(db.Courses, "id", "name", teacher.courseId);
-            return View(teacher);
+            string sql = "Select * from teachers join courses on teachers.courseId = courses.id where (teachers.id = " + id + ")";
+            db.List(sql);
+            var dt = db.List(sql);
+            var model = new teacher().List(dt);
+
+            string sql1 = "Select * from courses";
+            db.List(sql1);
+            var dt1 = db.List(sql1);
+            var model1 = new course().List(dt1);
+            ViewBag.courseId = new SelectList(model1, "id", "CourseName");
+            return View(model.FirstOrDefault());
         }
 
         // POST: teachers/Edit/5
@@ -82,31 +99,21 @@ namespace attendance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,name,position,courseId,userId")] teacher teacher)
+        public ActionResult Edit([Bind(Include = "id,TeacherName,position,courseId,phoneNo,hour,TeacherEmail")] teacher teacher)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(teacher).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.courseId = new SelectList(db.Courses, "id", "name", teacher.courseId);
-            return View(teacher);
+            string sql = "Update teachers Set TeacherName = '" + teacher.TeacherName + "', position = '" + teacher.position + "' , courseId = '" + teacher.courseId + "',  hour = '" + teacher.hour + "' ,TeacherEmail = '" + teacher.TeacherEmail + "' ,phoneNo = '" + teacher.phoneNo + "'  where id = " + teacher.id + "";
+            db.Edit(sql);
+            return RedirectToAction("Index");
         }
 
         // GET: teachers/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            teacher teacher = db.Lecturers.Find(id);
-            if (teacher == null)
-            {
-                return HttpNotFound();
-            }
-            return View(teacher);
+            string sql = "Select * from teachers join courses on teachers.courseId = courses.id where (teachers.id = " + id + ")";
+            db.List(sql);
+            var dt = db.List(sql);
+            var model = new teacher().List(dt);
+            return View(model.FirstOrDefault());
         }
 
         // POST: teachers/Delete/5
@@ -114,12 +121,10 @@ namespace attendance.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            teacher teacher = db.Lecturers.Find(id);
-            db.Lecturers.Remove(teacher);
-            db.SaveChanges();
+            string sql = "Delete from courses where id = " + id + "";
+            db.Delete(sql);
             return RedirectToAction("Index");
         }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)

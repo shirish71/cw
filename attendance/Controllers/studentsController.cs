@@ -10,107 +10,114 @@ using attendance.Models;
 
 namespace attendance.Controllers
 {
-    [Authorize(Roles ="Admin")]
     public class studentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: students
+        // GET: students1
         public ActionResult Index()
         {
-            var students = db.Students.Include(s => s.fac);
-            return View(students.ToList());
+            //var students = db.Students.Include(s => s.fac);
+            // return View(students.ToList());
+            string sql = "Select * from students join faculties on faculties.id = students.facultyId";
+            db.List(sql);
+            var dt = db.List(sql);
+            var model = new student().List(dt);
+            return View(model);
         }
 
-        // GET: students/Details/5
+        // GET: students1/Details/5
         public ActionResult Details(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            student student = db.Students.Find(id);
-            if (student == null)
-            {
-                return HttpNotFound();
-            }
-            return View(student);
+            string sql = "Select * from students join faculties on faculties.id = students.facultyId where (students.id = " + id + ")";
+            db.List(sql);
+            var dt = db.List(sql);
+            var model = new student().List(dt);
+            return View(model.FirstOrDefault());
         }
-
-        // GET: students/Create
-        public ActionResult Create()
+        public ActionResult FilterData()
         {
-            ViewBag.facultyId = new SelectList(db.Faculties, "id", "name");
+            string sql1 = "Select * from courses";
+            db.List(sql1);
+            var dt1 = db.List(sql1);
+            var model1 = new course().List(dt1);
+            ViewBag.courseId = new SelectList(model1, "id", "CourseName");
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult FilterView(string courseId)
+        {
+            string sql = "Select * from courses join facultyCourses on facultyCourses.courseId = courses.id join faculties on faculties.id = facultyCourses.facultyId join students on facultyCourses.facultyId = students.facultyId where courses.id = " + courseId + " order By students.enrollDate asc";
+            db.List(sql);
+            var dt = db.List(sql);
+            var model = new student().List(dt);
+            ViewBag.filterView = model.ToArray();
             return View();
         }
 
-        // POST: students/Create
+        // GET: students1/Create
+        public ActionResult Create()
+        {
+            string sql = "Select * from faculties";
+            db.List(sql);
+            var dt = db.List(sql);
+            var model = new faculty().List(dt);
+            ViewBag.facultyId = new SelectList(model, "id", "name");
+            return View();
+        }
+
+        // POST: students1/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,name,phone,email,DOB,address,groupId,facultyId")] student student)
+        public ActionResult Create([Bind(Include = "id,StudentName,phone,email,DOB,address,enrollDate,groupId,facultyId")] student student)
         {
-            if (ModelState.IsValid)
-            {
-                db.Students.Add(student);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.facultyId = new SelectList(db.Faculties, "id", "name", student.facultyId);
-            return View(student);
+            string sql = "Insert into students (StudentName,phone,email,DOB,address,enrollDate,groupId,facultyId) values ('" + student.StudentName + "','" + student.phone + "','" + student.email + "','" + student.DOB + "','" + student.address + "','" + student.enrollDate + "','" + student.groupId + "','" + student.facultyId + "')";
+            db.Insert(sql);
+            return RedirectToAction("Index");
         }
 
-        // GET: students/Edit/5
+        // GET: students1/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            student student = db.Students.Find(id);
-            if (student == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.facultyId = new SelectList(db.Faculties, "id", "name", student.facultyId);
-            return View(student);
+            //string sql = "Select Students.id, StudentName, DOB, phone, email, address, groupId, facultyId as facultyId, name  from students  join faculties on faculties.id = students.facultyId where (students.id = " + id + ")";
+            string sql1 = "Select * from faculties";
+            db.List(sql1);
+            var dt1 = db.List(sql1);
+            var model1 = new faculty().List(dt1);
+            ViewBag.facultyId = new SelectList(model1, "id", "name");
+            string sql = "Select * from students  join faculties on faculties.id = students.facultyId where (students.id = " + id + ")";
+            db.List(sql);
+            var dt = db.List(sql);
+            var model = new student().List(dt);
+            return View(model.FirstOrDefault());
         }
 
-        // POST: students/Edit/5
+        // POST: students1/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,name,phone,email,DOB,address,groupId,facultyId")] student student)
+        public ActionResult Edit([Bind(Include = "id,StudentName,phone,email,DOB,address,enrollDate,groupId,facultyId")] student student)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(student).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.facultyId = new SelectList(db.Faculties, "id", "name", student.facultyId);
-            return View(student);
+            string sql = "Update students Set StudentName = '" + student.StudentName + "' , phone = '" + student.phone + "' , email = '" + student.email + "', DOB = '" + student.DOB + "' , enrollDate = '" + student.enrollDate + "', address = '" + student.address + "', groupId = '" + student.groupId + "', facultyId = '" + student.facultyId + "' where id = " + student.id + "";
+            db.Edit(sql);
+            return RedirectToAction("Index");
         }
 
-        // GET: students/Delete/5
+        // GET: students1/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            student student = db.Students.Find(id);
-            if (student == null)
-            {
-                return HttpNotFound();
-            }
-            return View(student);
+            string sql = "Select * from students  join faculties on faculties.id = students.facultyId where (students.id = " + id + ")";
+            db.List(sql);
+            var dt = db.List(sql);
+            var model = new student().List(dt);
+            return View(model.FirstOrDefault());
         }
 
-        // POST: students/Delete/5
+        // POST: students1/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

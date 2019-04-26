@@ -11,8 +11,10 @@ namespace attendance.Models
         [Key]
         public int id { get; set; }
         [Required]
+        [Display(Name = "Faculty Name")]
         public string name { get; set; }
         public string code { get; set;  }
+        [Display(Name = "Year Long")]
         public string yearLong { get; set; }
 
         List<faculty> list = new List<faculty>();

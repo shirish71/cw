@@ -216,15 +216,47 @@
     <Compile Include="Migrations\201904241144087_fac.Designer.cs">
       <DependentUpon>201904241144087_fac.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201904241405057_stu.cs" />
+    <Compile Include="Migrations\201904241405057_stu.Designer.cs">
+      <DependentUpon>201904241405057_stu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904241435325_stud.cs" />
+    <Compile Include="Migrations\201904241435325_stud.Designer.cs">
+      <DependentUpon>201904241435325_stud.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904250418062_cou.cs" />
+    <Compile Include="Migrations\201904250418062_cou.Designer.cs">
+      <DependentUpon>201904250418062_cou.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904250517507_teach.cs" />
+    <Compile Include="Migrations\201904250517507_teach.Designer.cs">
+      <DependentUpon>201904250517507_teach.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904250546137_teache.cs" />
+    <Compile Include="Migrations\201904250546137_teache.Designer.cs">
+      <DependentUpon>201904250546137_teache.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904251547403_group.cs" />
+    <Compile Include="Migrations\201904251547403_group.Designer.cs">
+      <DependentUpon>201904251547403_group.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904261439370_student.cs" />
+    <Compile Include="Migrations\201904261439370_student.Designer.cs">
+      <DependentUpon>201904261439370_student.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904261529423_teacher.cs" />
+    <Compile Include="Migrations\201904261529423_teacher.Designer.cs">
+      <DependentUpon>201904261529423_teacher.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationUserRoleViewModel.cs" />
     <Compile Include="Models\attendanceModel.cs" />
     <Compile Include="Models\course.cs" />
+    <Compile Include="Models\courseTeacherViewModel.cs" />
     <Compile Include="Models\faculty.cs" />
     <Compile Include="Models\facultyCourse.cs" />
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\keyAttribute.cs" />
     <Compile Include="Models\teacher.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\student.cs" />
@@ -298,11 +330,6 @@
     <Content Include="Views\Faculties\Details.cshtml" />
     <Content Include="Views\Faculties\Edit.cshtml" />
     <Content Include="Views\Faculties\Index.cshtml" />
-    <Content Include="Views\students\Create.cshtml" />
-    <Content Include="Views\students\Delete.cshtml" />
-    <Content Include="Views\students\Details.cshtml" />
-    <Content Include="Views\students\Edit.cshtml" />
-    <Content Include="Views\students\Index.cshtml" />
     <Content Include="Views\UserAndRoles\AddUserToRole.cshtml" />
     <Content Include="Views\courses\Create.cshtml" />
     <Content Include="Views\courses\Delete.cshtml" />
@@ -314,26 +341,36 @@
     <Content Include="Views\facultyCourses\Details.cshtml" />
     <Content Include="Views\facultyCourses\Edit.cshtml" />
     <Content Include="Views\facultyCourses\Index.cshtml" />
-    <Content Include="Views\teachers\Create.cshtml" />
-    <Content Include="Views\teachers\Delete.cshtml" />
-    <Content Include="Views\teachers\Details.cshtml" />
-    <Content Include="Views\teachers\Edit.cshtml" />
-    <Content Include="Views\teachers\Index.cshtml" />
     <Content Include="Views\timeTables\Create.cshtml" />
     <Content Include="Views\timeTables\Delete.cshtml" />
     <Content Include="Views\timeTables\Details.cshtml" />
     <Content Include="Views\timeTables\Edit.cshtml" />
     <Content Include="Views\timeTables\Index.cshtml" />
-    <Content Include="Views\attendances\Create.cshtml" />
-    <Content Include="Views\attendances\Delete.cshtml" />
-    <Content Include="Views\attendances\Details.cshtml" />
-    <Content Include="Views\attendances\Edit.cshtml" />
-    <Content Include="Views\attendances\Index.cshtml" />
     <Content Include="Views\attendanceModels\Create.cshtml" />
     <Content Include="Views\attendanceModels\Delete.cshtml" />
     <Content Include="Views\attendanceModels\Details.cshtml" />
     <Content Include="Views\attendanceModels\Edit.cshtml" />
     <Content Include="Views\attendanceModels\Index.cshtml" />
+    <Content Include="Views\attendanceModels\SelectClass.cshtml" />
+    <Content Include="Views\attendanceModels\Take.cshtml" />
+    <Content Include="Views\students\Create.cshtml" />
+    <Content Include="Views\students\Delete.cshtml" />
+    <Content Include="Views\students\Details.cshtml" />
+    <Content Include="Views\students\Edit.cshtml" />
+    <Content Include="Views\students\Index.cshtml" />
+    <Content Include="Views\teachers\Create.cshtml" />
+    <Content Include="Views\teachers\Delete.cshtml" />
+    <Content Include="Views\teachers\Details.cshtml" />
+    <Content Include="Views\teachers\Edit.cshtml" />
+    <Content Include="Views\teachers\Index.cshtml" />
+    <Content Include="Views\teachers\FilterData.cshtml" />
+    <Content Include="Views\teachers\FilterView.cshtml" />
+    <Content Include="Views\students\FilterData.cshtml" />
+    <Content Include="Views\students\FilterView.cshtml" />
+    <Content Include="Views\attendanceModels\FilterData.cshtml" />
+    <Content Include="Views\attendanceModels\FilterView.cshtml" />
+    <Content Include="Views\attendanceModels\AbsentStudent.cshtml" />
+    <Content Include="Views\attendanceModels\FilterDataInd.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -357,6 +394,30 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201904241144087_fac.resx">
       <DependentUpon>201904241144087_fac.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904241405057_stu.resx">
+      <DependentUpon>201904241405057_stu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904241435325_stud.resx">
+      <DependentUpon>201904241435325_stud.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904250418062_cou.resx">
+      <DependentUpon>201904250418062_cou.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904250517507_teach.resx">
+      <DependentUpon>201904250517507_teach.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904250546137_teache.resx">
+      <DependentUpon>201904250546137_teache.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904251547403_group.resx">
+      <DependentUpon>201904251547403_group.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904261439370_student.resx">
+      <DependentUpon>201904261439370_student.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904261529423_teacher.resx">
+      <DependentUpon>201904261529423_teacher.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

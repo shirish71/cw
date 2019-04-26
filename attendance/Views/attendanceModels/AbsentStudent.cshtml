@@ -1,0 +1,34 @@
+﻿@model IEnumerable<attendance.Models.attendanceModel>
+
+@{
+    ViewBag.Title = "Absent Student";
+}
+
+    <h2>Absent Student</h2>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentName)
+        </th>
+        <th>
+            Course Name
+        </th>
+        
+    </tr>
+
+    @foreach (var item in ViewBag.Absent)
+    {
+<tr>
+    <td>
+        @item.StudentName
+    </td>
+    <td>
+        @item.courseName
+    </td>
+
+</tr>
+    }
+
+</table>
+
+<button class="btn btn-dark">@Html.ActionLink("Take Attendence", "SelectClass")</button>

@@ -12,6 +12,8 @@ namespace attendance.Models
         [Key]
         public int id { get; set; }
         [Required]
+
+        [Display(Name = "Course ID")]
         public int courseId { get; set; }
        
         [ForeignKey("courseId")]
@@ -20,7 +22,10 @@ namespace attendance.Models
         
         [ForeignKey("facultyId")]
         public virtual faculty fac { get; set; }
-
+        [NotMapped]
+        public string CourseName { get; set; }
+        [NotMapped]
+        public string name { get; set; }
         List<facultyCourse> list = new List<facultyCourse>();
         public List<facultyCourse> List(System.Data.DataTable dt)
         {
@@ -29,9 +34,13 @@ namespace attendance.Models
             {
                 facultyCourse facCou = new facultyCourse();
                 facCou.id = Convert.ToInt32(dt.Rows[i]["id"]);
-                facCou.courseId = Convert.ToInt32(dt.Rows[i]["courseId"]);
-                facCou.facultyId = Convert.ToInt32(dt.Rows[i]["facultyId"]);
-                
+                if (facCou.CourseName != "") {
+                     facCou.CourseName = dt.Rows[i]["CourseName"].ToString();
+                }
+                if(facCou.name != "")
+                {
+                    facCou.name = dt.Rows[i]["name"].ToString();
+                }
                 list.Add(facCou);
             }
             return list;

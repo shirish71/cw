@@ -5,47 +5,59 @@
 }
 
 <h2>Index</h2>
+<button class="btn btn-dark"> @Html.ActionLink("Filter Modules", "FilterData")</button>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.course.name)
+            @Html.DisplayNameFor(model => model.CourseName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.name)
+            @Html.DisplayNameFor(model => model.TeacherName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.position)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.userId)
+            @Html.DisplayNameFor(model => model.phoneNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.hour)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TeacherEmail)
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.course.name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.position)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.userId)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CourseName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TeacherName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.position)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.phoneNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.hour)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TeacherEmail)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.id })
+            </td>
+        </tr>
+    }
 
 </table>
+<button class="btn btn-dark"> @Html.ActionLink("Create New", "Create")</button>

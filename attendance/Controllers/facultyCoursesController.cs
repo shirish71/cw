@@ -17,7 +17,7 @@ namespace attendance.Controllers
         // GET: facultyCourses
         public ActionResult Index()
         {
-            string sql = "Select * from facultyCourses";
+            string sql = "Select * from facultyCourses join faculties on faculties.id = facultyCourses.facultyId join courses on courses.id = facultyCourses.courseId";
             db.List(sql);
             var dt = db.List(sql);
             var model = new facultyCourse().List(dt);
@@ -27,23 +27,27 @@ namespace attendance.Controllers
         // GET: facultyCourses/Details/5
         public ActionResult Details(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            facultyCourse facultyCourse = db.FacultyCourses.Find(id);
-            if (facultyCourse == null)
-            {
-                return HttpNotFound();
-            }
-            return View(facultyCourse);
+            string sql = "Select * from facultyCourses join faculties on faculties.id = facultyCourses.facultyId join courses on courses.id = facultyCourses.courseId where (facultyCourses.id = " + id + ")";
+            db.List(sql);
+            var dt = db.List(sql);
+            var model = new facultyCourse().List(dt);
+            return View(model.FirstOrDefault());
         }
 
         // GET: facultyCourses/Create
         public ActionResult Create()
         {
-            ViewBag.courseId = new SelectList(db.Courses, "id", "name");
-            ViewBag.facultyId = new SelectList(db.Faculties, "id", "name");
+            string sql1 = "Select * from courses";
+            db.List(sql1);
+            var dt1 = db.List(sql1);
+            var model1 = new course().List(dt1);
+            ViewBag.courseId = new SelectList(model1, "id", "CourseName");
+
+            string sql2 = "Select * from faculties";
+            db.List(sql2);
+            var dt2 = db.List(sql2);
+            var model2 = new faculty().List(dt2);
+            ViewBag.facultyId = new SelectList(model2, "id", "name");
             return View();
         }
 
@@ -54,33 +58,31 @@ namespace attendance.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,courseId,facultyId")] facultyCourse facultyCourse)
         {
-            if (ModelState.IsValid)
-            {
-                db.FacultyCourses.Add(facultyCourse);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.courseId = new SelectList(db.Courses, "id", "name", facultyCourse.courseId);
-            ViewBag.facultyId = new SelectList(db.Faculties, "id", "name", facultyCourse.facultyId);
-            return View(facultyCourse);
+            string sql = "Insert into facultyCourses (facultyId, courseId) values ('" + facultyCourse.facultyId + "' ,'" + facultyCourse.courseId + "' )";
+            db.Edit(sql);
+            return RedirectToAction("Index");
         }
 
         // GET: facultyCourses/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            facultyCourse facultyCourse = db.FacultyCourses.Find(id);
-            if (facultyCourse == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.courseId = new SelectList(db.Courses, "id", "name", facultyCourse.courseId);
-            ViewBag.facultyId = new SelectList(db.Faculties, "id", "name", facultyCourse.facultyId);
-            return View(facultyCourse);
+            string sql = "Select * from facultyCourses join faculties on faculties.id = facultyCourses.facultyId join courses on courses.id = facultyCourses.courseId where (facultyCourses.id = " + id + ")";
+            db.List(sql);
+            var dt = db.List(sql);
+            var model = new facultyCourse().List(dt);
+            
+            string sql1 = "Select * from courses";
+            db.List(sql1);
+            var dt1 = db.List(sql1);
+            var model1 = new course().List(dt1);
+            ViewBag.courseId = new SelectList(model1, "id", "CourseName");
+
+            string sql2 = "Select * from faculties";
+            db.List(sql2);
+            var dt2 = db.List(sql2);
+            var model2 = new faculty().List(dt2);
+            ViewBag.facultyId = new SelectList(model2, "id", "name");
+            return View(model.FirstOrDefault());
         }
 
         // POST: facultyCourses/Edit/5
@@ -90,30 +92,19 @@ namespace attendance.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id,courseId,facultyId")] facultyCourse facultyCourse)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(facultyCourse).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.courseId = new SelectList(db.Courses, "id", "name", facultyCourse.courseId);
-            ViewBag.facultyId = new SelectList(db.Faculties, "id", "name", facultyCourse.facultyId);
-            return View(facultyCourse);
+            string sql = "Update facultyCourses Set facultyId = '" + facultyCourse.facultyId + "' , courseId = '" + facultyCourse.courseId + "' where id = "+facultyCourse.id+"";
+            db.Edit(sql);
+            return RedirectToAction("Index");
         }
 
         // GET: facultyCourses/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            facultyCourse facultyCourse = db.FacultyCourses.Find(id);
-            if (facultyCourse == null)
-            {
-                return HttpNotFound();
-            }
-            return View(facultyCourse);
+            string sql = "Select * from facultyCourses join faculties on faculties.id = facultyCourses.facultyId join courses on courses.id = facultyCourses.courseId where (facultyCourses.id = " + id + ")";
+            db.List(sql);
+            var dt = db.List(sql);
+            var model = new facultyCourse().List(dt);
+            return View(model.FirstOrDefault());
         }
 
         // POST: facultyCourses/Delete/5
@@ -121,9 +112,8 @@ namespace attendance.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            facultyCourse facultyCourse = db.FacultyCourses.Find(id);
-            db.FacultyCourses.Remove(facultyCourse);
-            db.SaveChanges();
+            string sql = "Delete from courses where id = " + id + "";
+            db.Delete(sql);
             return RedirectToAction("Index");
         }
 

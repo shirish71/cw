@@ -1,18 +1,16 @@
 ﻿@model IEnumerable<attendance.Models.course>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Course List";
 }
 
 <h2>Our Courses</h2>
 
-<p>
-    @Html.ActionLink("Add New Course", "Create")
-</p>
+
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.name)
+            @Html.DisplayNameFor(model => model.CourseName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.code)
@@ -26,7 +24,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.name)
+            @Html.DisplayFor(modelItem => item.CourseName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.code)
@@ -43,3 +41,5 @@
 }
 
 </table>
+
+<button class="btn btn-dark">@Html.ActionLink("Add New", "Create")</button>

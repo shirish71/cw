@@ -1,0 +1,93 @@
+﻿@model attendance.Models.attendanceModel
+
+@{
+    ViewBag.Title = "Take Attendance ";
+}
+
+<h2>Create</h2>
+
+<form id="form1" runat="server" method="post" enctype="multipart/form-data" action="/attendanceModels/Create">
+
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>attendanceModel</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <table class="table">
+            <tr>
+                <th>
+                    Student Name
+                </th>
+                <th>
+                    Time Table
+                </th>
+                <th>
+                    Day
+                </th>
+                <th>
+                    Course Name
+                </th>
+                <th>
+                    Remarks
+                </th>
+                <th> @Html.DisplayNameFor(model => model.status)</th>
+            </tr>
+            @{int x = 1;}
+            @foreach (var item in ViewBag.take)
+            {
+                <tr>
+                    <td>
+                        @item.StudentName
+
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                <input name="studentId_@x" value="@item.StudentIDs" type="hidden" />
+                                <input name="timeTableId_@x" value="@item.id " placeholder="Time Table Id" type="hidden" class="form-control" />
+                                @Html.ValidationMessageFor(model => model.studentId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        @item.startTime
+                    </td>
+                    <td>
+                        @item.date
+                    </td>
+                    <td>
+                        @item.CourseName
+                    </td>
+                    <td>
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <input name="remarks_@x" placeholder="Remarks" type="text" class="form-control" />
+                                @Html.ValidationMessageFor(model => model.studentId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <select class="form-control" id="status[]" name="status_@x">
+                            <option value="P">P</option>
+                            <option value="L">L</option>
+                            <option value="A">A</option>
+                        </select>
+                    </td>
+                </tr>
+                { x++; }
+            }
+        </table>
+        <input name="count" value="@x" type="hidden" />
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Take Attendance" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+
+</form>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

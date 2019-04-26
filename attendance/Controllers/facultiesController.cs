@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+    
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -10,7 +12,7 @@ using attendance.Models;
 
 namespace attendance.Controllers
 {
-   // [Authorize(Roles = "Admin")]
+    // [Authorize(Roles = "Admin")]
     public class facultiesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -32,7 +34,7 @@ namespace attendance.Controllers
             db.List(sql);
             var dt = db.List(sql);
             var model = new faculty().List(dt);
-            return View(model.FirstOrDefault()); 
+            return View(model.FirstOrDefault());
         }
 
         // GET: faculties/Create
@@ -81,7 +83,7 @@ namespace attendance.Controllers
             {
                 //db.Entry(faculty).State = EntityState.Modified;
                 //db.SaveChanges();
-                string sql = "Update faculties set name = '" + faculty.name + "' , code = '" + faculty.code + "', yearLong = '" + faculty.yearLong + "' ";
+                string sql = "Update faculties set name = '" + faculty.name + "' , code = '" + faculty.code + "', yearLong = '" + faculty.yearLong + "' where id = " + faculty.id + "";
                 db.Insert(sql);
                 return RedirectToAction("Index");
             }
@@ -122,3 +124,4 @@ namespace attendance.Controllers
         }
     }
 }
+

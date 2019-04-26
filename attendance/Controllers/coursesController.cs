@@ -45,13 +45,13 @@ namespace attendance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,name,code,creditHour")] course course)
+        public ActionResult Create([Bind(Include = "id,CourseName,code,creditHour")] course course)
         {
             if (ModelState.IsValid)
             {
                 //db.Courses.Add(course);
                 // db.SaveChanges();
-                string sql = "Insert into courses (name,code,creditHour) values ('" + course.name + "','" + course.code + "','" + course.creditHour + "')";
+                string sql = "Insert into courses (CourseName,code,creditHour) values ('" + course.CourseName + "','" + course.code + "','" + course.creditHour + "')";
                 db.Insert(sql);
                 return RedirectToAction("Index");
             }
@@ -74,12 +74,12 @@ namespace attendance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,name,code,creditHour")] course course)
+        public ActionResult Edit([Bind(Include = "id,CourseName,code,creditHour")] course course)
         {
             if (ModelState.IsValid)
             {
-                string sql = "Update courses set name = '" + course.name + "' , code = '" + course.code + "', creditHour = '" + course.creditHour + "' ";
-                db.Insert(sql);
+                string sql = "Update courses set CourseName = '" + course.CourseName + "' , code = '" + course.code + "', creditHour = '" + course.creditHour + "' where id = " + course.id + "";
+                db.Edit(sql);
                 return RedirectToAction("Index");
             }
             return View(course);
@@ -115,3 +115,4 @@ namespace attendance.Controllers
         }
     }
 }
+

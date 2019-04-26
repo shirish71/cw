@@ -6,40 +6,41 @@
 
 <h2>Our Faculties</h2>
 
-<p>
-    @Html.ActionLink("Add New Faculty", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.name)
+            NAME
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.code)
+            CODE
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.yearLong)
+            Year Long
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.code)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.yearLong)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.yearLong)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.id })
+            </td>
+        </tr>
+    }
 
 </table>
+
+<button class="btn btn-dark"> @Html.ActionLink("Add New Faculty", "Create")</button>
+<button  class="btn btn-dark">@Html.ActionLink("Assign Course", "Index", "facultycourses")</button>

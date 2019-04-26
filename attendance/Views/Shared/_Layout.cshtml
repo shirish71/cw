@@ -21,9 +21,17 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("UserAndRoles", "AddUserToRole", "UserAndRoles")</li>
+
                     <li>@Html.ActionLink("Faculties", "Index", "Faculties")</li>
                     <li>@Html.ActionLink("Courses", "Index", "Courses")</li>
-                    <li>@Html.ActionLink("facultycourses", "Index", "facultycourses")</li>
+                    <li>@Html.ActionLink("Teachers ", "Index", "Teachers")</li>
+                    <li>@Html.ActionLink("Students ", "Index", "Students")</li>
+                    <li>@Html.ActionLink("Timetable ", "Index", "Timetables")</li>
+                    <li>@Html.ActionLink("Attendence ", "Index", "attendanceModels")</li>
+
+                    
+
                     <!--
         <li>@Html.ActionLink("Home", "Index", "Home")</li>
     <li>@Html.ActionLink("About", "About", "Home")</li>

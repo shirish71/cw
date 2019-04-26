@@ -11,8 +11,13 @@ namespace attendance.Models
         [Key]
         public int id { get; set; }
         [Required]
-        public string name {get; set; }
+        [Display(Name = "Course Name")]
+        public string CourseName {get; set; }
+
+        [Display(Name = "Code")]
         public string code { get; set; }
+
+        [Display(Name = "Credit Hr")]
         public string creditHour { get; set; }
 
 
@@ -24,7 +29,7 @@ namespace attendance.Models
             {
                 course cou = new course();
                 cou.id = Convert.ToInt32(dt.Rows[i]["id"]);
-                cou.name = dt.Rows[i]["name"].ToString();
+                cou.CourseName = dt.Rows[i]["CourseName"].ToString();
                 cou.code = dt.Rows[i]["code"].ToString();
                 cou.creditHour = dt.Rows[i]["creditHour"].ToString();
                 list.Add(cou);
@@ -32,5 +37,7 @@ namespace attendance.Models
             return list;
 
         }
+
+       
     }
 }

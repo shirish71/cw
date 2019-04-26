@@ -1,7 +1,7 @@
 ﻿@model attendance.Models.faculty
 
 @{
-    ViewBag.Title = "Adding new faculty";
+    ViewBag.Title = "New Faculty";
 }
 
 <h2>New Faculty</h2>
@@ -11,8 +11,6 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        
-        <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.name, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -40,7 +38,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="ADD" class="btn btn-default" />
+                <input type="submit" value="Add" class="btn btn-default" />
             </div>
         </div>
     </div>

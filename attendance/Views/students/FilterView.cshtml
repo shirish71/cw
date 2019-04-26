@@ -1,0 +1,73 @@
+﻿@model IEnumerable<attendance.Models.student>
+@{
+    ViewBag.Title = "FilterView";
+}
+
+<h2>FilterView</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.phone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.enrollDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DOB)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.groupId)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in ViewBag.filterView)
+    {
+        <tr>
+            <td>
+                @item.name
+            </td>
+            <td>
+                @item.StudentName
+            </td>
+            <td>
+                @item.phone
+            </td>
+            <td>
+                @item.email
+            </td>
+            <td>
+                @item.enrollDate
+            </td>
+            <td>
+                @item.DOB
+            </td>
+            <td>
+                @item.address
+            </td>
+            <td>
+                @item.groupId
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.id })
+            </td>
+        </tr>
+    }
+
+</table>

@@ -17,27 +17,39 @@ namespace attendance.Controllers
         // GET: timeTables
         public ActionResult Index()
         {
-            return View(db.TimeTables.ToList());
+            string sql = "Select * from timeTables join teachers on teachers.id = timeTables.teacherId join courses on courses.id = timeTables.courseId";
+            db.List(sql);
+            var dt = db.List(sql);
+            var model = new timeTable().List(dt);
+            return View(model);
         }
 
         // GET: timeTables/Details/5
         public ActionResult Details(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            timeTable timeTable = db.TimeTables.Find(id);
-            if (timeTable == null)
-            {
-                return HttpNotFound();
-            }
-            return View(timeTable);
+            string sql = "Select * from timeTables join teachers on teachers.id = timeTables.teacherId join courses on courses.id = timeTables.courseId where timeTables.id = "+id+" ";
+            db.List(sql);
+            var dt = db.List(sql);
+            var model = new timeTable().List(dt);
+            return View(model.FirstOrDefault());
         }
 
         // GET: timeTables/Create
         public ActionResult Create()
         {
+            string sql1 = "Select * from courses";
+            db.List(sql1);
+            var dt1 = db.List(sql1);
+            var model1 = new course().List(dt1);
+            ViewBag.courseId = new SelectList(model1, "id", "CourseName");
+
+            string sql2 = "Select * from teachers";
+            db.List(sql2);
+            var dt2 = db.List(sql2);
+            var model2 = new teacher().List(dt2);
+            ViewBag.teacherId = new SelectList(model2, "id", "TeacherName");
+
+
             return View();
         }
 
@@ -46,31 +58,34 @@ namespace attendance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,day,TeacherId,CourseId,startTime,endTime,GroupId")] timeTable timeTable)
+        public ActionResult Create([Bind(Include = "id,day,teacherId,courseId,startTime,endTime,GroupId")] timeTable timeTable)
         {
-            if (ModelState.IsValid)
-            {
-                db.TimeTables.Add(timeTable);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(timeTable);
+            string sql = "Insert into timeTables (day, teacherId,courseId,startTime,endTime,GroupId) values ('" + timeTable.day + "' ,'" + timeTable.teacherId + "','" + timeTable.courseId + "','" + timeTable.startTime + "','" + timeTable.endTime + "','" + timeTable.GroupId + "' )";
+            db.Insert(sql);
+            return RedirectToAction("Index");
         }
 
         // GET: timeTables/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            timeTable timeTable = db.TimeTables.Find(id);
-            if (timeTable == null)
-            {
-                return HttpNotFound();
-            }
-            return View(timeTable);
+            string sql = "Select * from timeTables join teachers on teachers.id = timeTables.teacherId join courses on courses.id = timeTables.courseId where timeTables.id = " + id + " ";
+            db.List(sql);
+            var dt = db.List(sql);
+            var model = new timeTable().List(dt);
+
+            string sql1 = "Select * from courses";
+            db.List(sql1);
+            var dt1 = db.List(sql1);
+            var model1 = new course().List(dt1);
+            ViewBag.courseId = new SelectList(model1, "id", "CourseName");
+
+            string sql2 = "Select * from teachers";
+            db.List(sql2);
+            var dt2 = db.List(sql2);
+            var model2 = new teacher().List(dt2);
+            ViewBag.teacherId = new SelectList(model2, "id", "TeacherName");
+
+            return View(model.FirstOrDefault());
         }
 
         // POST: timeTables/Edit/5
@@ -78,30 +93,21 @@ namespace attendance.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,day,TeacherId,CourseId,startTime,endTime,GroupId")] timeTable timeTable)
+        public ActionResult Edit([Bind(Include = "id,day,teacherId,courseId,startTime,endTime,GroupId")] timeTable timeTable)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(timeTable).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(timeTable);
+            string sql = "Update timeTables Set day = '" + timeTable.day + "' , teacherId = '" + timeTable.teacherId + "', courseId  = '" + timeTable.courseId + "', startTime = '" + timeTable.startTime + "', endTime = '" + timeTable.endTime + "', GroupId = '" + timeTable.GroupId + "' where id = "+timeTable.id+" ";
+            db.Edit(sql);
+            return RedirectToAction("Index");
         }
 
         // GET: timeTables/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            timeTable timeTable = db.TimeTables.Find(id);
-            if (timeTable == null)
-            {
-                return HttpNotFound();
-            }
-            return View(timeTable);
+            string sql = "Select * from timeTables join teachers on teachers.id = timeTables.teacherId join courses on courses.id = timeTables.courseId where timeTables.id = " + id + " ";
+            db.List(sql);
+            var dt = db.List(sql);
+            var model = new timeTable().List(dt);
+            return View(model.FirstOrDefault());
         }
 
         // POST: timeTables/Delete/5
@@ -109,9 +115,8 @@ namespace attendance.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            timeTable timeTable = db.TimeTables.Find(id);
-            db.TimeTables.Remove(timeTable);
-            db.SaveChanges();
+            string sql = "Delete from courses where id = " + id + "";
+            db.Delete(sql);
             return RedirectToAction("Index");
         }
 

@@ -1,0 +1,59 @@
+﻿@model IEnumerable<attendance.Models.attendanceModel>
+
+@{
+    ViewBag.Title = "Report";
+}
+
+<h2>Taking Attendence</h2>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.startTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.remarks)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.date)
+        </th>
+        <th>@Html.DisplayNameFor(model => model.CourseName)</th>
+        <th>
+            @Html.DisplayNameFor(model => model.status)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in ViewBag.filterView)
+    {
+        <tr>
+            <td>
+                @item.StudentName
+            </td>
+            <td>
+                @item.startTime
+            </td>
+            <td>
+                @item.remarks
+            </td>
+            <td>
+                @item.date
+            </td>
+            <td>  @item.CourseName </td>
+            <td>
+                @item.status
+            </td>
+            
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.id })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<button class="btn btn-dark">@Html.ActionLink("Take Attendence", "SelectClass")</button>
